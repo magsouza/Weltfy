@@ -1,6 +1,6 @@
 import requests, pandas, json
 from io import StringIO
-from nation import get_nation, get_code
+from api.nation import get_nation, get_code
 
 def set_url(country, interval):
     code = get_code(country)
