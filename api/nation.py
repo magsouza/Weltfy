@@ -3,7 +3,7 @@ import wikipedia, json
 nations = json.loads(open('api/countries.json').read())
 
 def get_summary(artist):
-    summary = wikipedia.WikipediaPage(artist).summary
+    summary = wikipedia.summary(artist)
     summary = summary.replace('\n','').replace('\'','').replace(',', '').replace('.', '')
     return summary
 
@@ -32,7 +32,7 @@ def get_summaries(artist):
         summaries.append(summary)
     except:
         summs = try_cases(artist)
-        summaries.append(summs)
+        summaries.extend(summs)
     return summaries
 
 def get_nationalities(summaries):
