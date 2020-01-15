@@ -1,6 +1,11 @@
 import wikipedia, json
 
-nations = json.loads(open('countries.json').read())
+nations = json.loads(open('api/countries.json').read())
+
+def get_summary(artist):
+    summary = wikipedia.WikipediaPage(artist).summary
+    summary = summary.replace('\n','').replace('\'','').replace(',', '').replace('.', '')
+    return summary
 
 def get_nation(artist):
     types_of_cases = ['singer', 'group', 'band']
@@ -8,8 +13,7 @@ def get_nation(artist):
     summaries = []
 
     try:
-        summary = wikipedia.WikipediaPage(title = artist).summary\
-            .replace('\n','').replace('\'','').replace(',', '').replace('.', '')
+        summary = get_summary(artist)
         summaries.append(summary)
     except:
         for case in types_of_cases:
@@ -18,8 +22,7 @@ def get_nation(artist):
 
         for case in cases:
             try:
-                summary = wikipedia.WikipediaPage(title = case).summary\
-                    .replace('\n','').replace('\'','').replace(',', '').replace('.', '')
+                summary = get_summary(case)
                 summaries.append(summary)
             except:
                 pass
