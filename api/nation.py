@@ -7,37 +7,49 @@ def get_summary(artist):
     summary = summary.replace('\n','').replace('\'','').replace(',', '').replace('.', '')
     return summary
 
-def get_nation(artist):
+def try_cases(artist):
     types_of_cases = ['singer', 'group', 'band']
     cases = []
     summaries = []
+    
+    for type in types_of_cases:
+        aux = f'{artist} ({type})'
+        cases.append(aux)
+    
+    for case in cases:
+        try:
+            summary = get_summary(case)
+            summaries.append(summary)
+        except:
+            pass
+    
+    return summaries
 
+def get_summaries(artist):
+    summaries = []
     try:
         summary = get_summary(artist)
         summaries.append(summary)
     except:
-        for case in types_of_cases:
-            aux = f'{artist} ({case})'
-            cases.append(aux)
+        summs = try_cases(artist)
+        summaries.append(summs)
+    return summaries
 
-        for case in cases:
-            try:
-                summary = get_summary(case)
-                summaries.append(summary)
-            except:
-                pass
-
+def get_nationalities(summaries):
     nationalities = []
-
     for summ in summaries:
         summ = summ.split()
-        idx = index_to_split(summ)
-        summ = summ[:idx]
-        summ = filter_suffixes(summ)
+        idx = index_to_split(summ)      # gets index of the keywords singer/band/...
+        summ = summ[:idx]               # and slice it up to this word
+        summ = filter_suffixes(summ)    # so it can filter words with nationalities suffix
         nationalities.append(summ)
+    return nationalities
+
+def get_nation(artist):
+    summaries = get_summaries(artist)
+    nationalities = get_nationalities(summaries)
 
     country = []
-    
     for nat in nationalities:
         try:
             for dct in nations:
@@ -46,9 +58,7 @@ def get_nation(artist):
                     break
         except:
             pass
-
     country = list(set(country))
-    
     return country
 
 def filter_suffixes(summary):
