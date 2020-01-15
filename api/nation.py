@@ -42,7 +42,8 @@ def get_nationalities(summaries):
         idx = index_to_split(summ)      # gets index of the keywords singer/band/...
         summ = summ[:idx]               # and slice it up to this word
         summ = filter_suffixes(summ)    # so it can filter words with nationalities suffix
-        nationalities.append(summ)
+        nationalities.extend(summ)
+    print(nationalities)
     return nationalities
 
 def get_nation(artist):
@@ -55,7 +56,6 @@ def get_nation(artist):
             for dct in nations:
                 if dct['adj'] in nat:
                     country.append(dct['country'])
-                    break
         except:
             pass
     country = list(set(country))
