@@ -80,6 +80,8 @@ def filter_suffixes(summary):
             sfx.append(word)
         elif word.endswith('i'):
             sfx.append(word)
+        elif word.endswith('an'):
+            sfx.append(word)
         
     return sfx
 
