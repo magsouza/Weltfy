@@ -17,8 +17,8 @@ def generate_csv(dates, country):
     
     final_list = pandas.concat(df_list, ignore_index=True)
     final_list.drop_duplicates(keep='first', inplace=True)
-
-    return final_list
+    filtered_csv = filter_csv(final_list, country)
+    return filtered_csv
 
 def filter_csv(biglist, country):
     for index, row in biglist.iterrows():
