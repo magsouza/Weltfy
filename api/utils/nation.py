@@ -90,6 +90,8 @@ def index_to_split(summary):
         return summary.index('group')
     elif 'band' in summary:
         return summary.index('band')
+    elif 'rapper' in summary:
+        return summary.index('rapper')
 
 def get_code(country):
     for dct in nations:
