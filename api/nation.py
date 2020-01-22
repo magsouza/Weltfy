@@ -43,7 +43,6 @@ def get_nationalities(summaries):
         summ = summ[:idx]               # and slice it up to this word
         summ = filter_suffixes(summ)    # so it can filter words with nationalities suffix
         nationalities.extend(summ)
-    print(nationalities)
     return nationalities
 
 def get_nation(artist):
