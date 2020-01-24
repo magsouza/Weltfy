@@ -1,6 +1,6 @@
 import requests, pandas, json
 from io import StringIO
-from nation import get_nation, get_code
+from utils.nation import get_nation, get_code
 
 def set_url(country, interval):
     code = get_code(country)
@@ -22,6 +22,7 @@ def generate_csv(dates, country):
 
 def filter_csv(biglist, country):
     for index, row in biglist.iterrows():
+        biglist.at[index, 'URL'] = biglist.at[index, 'URL'][31:]
         if country not in get_nation(row['Artist']):
             biglist.drop(labels=index, inplace=True)
     return biglist
