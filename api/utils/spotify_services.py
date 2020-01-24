@@ -1,4 +1,4 @@
-import json, requests, base64
+import json, requests, base64, pandas
 
 SPOTIFY_API_BASE_URL = 'https://api.spotify.com'
 API_VERSION = "v1"
@@ -18,7 +18,7 @@ SPOTIFY_AUTH_URL = SPOTIFY_AUTH_BASE_URL.format('authorize')
 SPOTIFY_TOKEN_URL = SPOTIFY_AUTH_BASE_URL.format('api/token')
 
 # client keys
-with open('config.json') as c:
+with open('api/config.json') as c:
     config = json.load(c)
 CLIENT_ID = config['id']
 CLIENT_SECRET = config['secret']
@@ -79,13 +79,13 @@ def create_playlist(auth_header, country):
     resp = requests.post(url, request_body, headers=auth_header)
     return resp.json()['id']
 
-# ---------------- 7. FILL PLAYLIST REQUEST ------------------------
+# ---------------- 4. FILL PLAYLIST REQUEST ------------------------
 FILL_PLAYLIST = f'{SPOTIFY_API_URL}/playlists'
 
 def fill_playlist(track_list, id, auth_header):
     url = f'{FILL_PLAYLIST}/{id}/tracks?uris='
-    for track in track_list:
-        url = f"{url}spotify%3Atrack%3A{track[1]['track_id']}%2C"
+    for index, track in track_list.iterrows():
+        url = f"{url}spotify%3Atrack%3A{track_list.at[index, 'URL']}%2C"
     url = url[:len(url)-3]
     resp = requests.post(url, headers=auth_header)
     return resp
