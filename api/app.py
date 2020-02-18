@@ -8,26 +8,31 @@ from utils.csv_gen import generate_csv
 app = Flask(__name__)
 app.secret_key = ""
 
+
 @app.route('/')
 def index():
     return render_template('home.html')
 
+
 @app.route('/auth/')
 def auth():
     return redirect(sp.AUTH_URL)
+
 
 @app.route('/callback/')
 def callback():
     auth_token = request.args['code']
     auth_header = sp.authorize(auth_token)
     session['auth_header'] = auth_header
-    return country()
+    return redirect('/country')
+
 
 @app.route('/country', methods=['GET', 'POST'])
 def country():
-    with open('api/spotify_countries.json') as s:
+    with open('spotify_countries.json') as s:
         countries = json.load(s)
     return render_template('country.html', countries=countries['countries'])
+
 
 @app.route('/playlist', methods=['GET', 'POST'])
 def playlist():
@@ -36,10 +41,13 @@ def playlist():
         interval = get_3weeks()
         country = request.form.getlist('country')[0]
         tracklist = generate_csv(interval, country)
-        playlist_id = sp.create_playlist(auth_header, country) # create the playlist
-        sp.fill_playlist(tracklist, playlist_id, auth_header) # fill the playlist
+        playlist_id = sp.create_playlist(
+            auth_header, country)  # create the playlist
+        sp.fill_playlist(tracklist, playlist_id,
+                         auth_header)  # fill the playlist
         url = f'http://open.spotify.com/playlist/{playlist_id}'
         return render_template('playlist.html', url=url)
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
