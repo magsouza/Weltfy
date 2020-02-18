@@ -1,0 +1,15 @@
+version: "3"
+services:
+  webapp:
+    build: webapp/.
+    volumes:
+      - ./webapp/src:/app/src
+      - ./webapp/public:/app/public
+    ports:
+      - 8081:3000
+  api:
+    build: api/.
+    volumes:
+      - ./api:/weltfy
+    ports:
+      - 8080:5000
