@@ -1,11 +1,15 @@
-import json, requests, base64, pandas
+import json
+import requests
+import base64
+import pandas
 
 SPOTIFY_API_BASE_URL = 'https://api.spotify.com'
 API_VERSION = "v1"
 SPOTIFY_API_URL = f"{SPOTIFY_API_BASE_URL}/{API_VERSION}"
 
 try:
-    import urllib.request, urllib.error
+    import urllib.request
+    import urllib.error
     import urllib.parse as urllibparse
 except ImportError:
     import urllib as urllibparse
@@ -18,7 +22,7 @@ SPOTIFY_AUTH_URL = SPOTIFY_AUTH_BASE_URL.format('authorize')
 SPOTIFY_TOKEN_URL = SPOTIFY_AUTH_BASE_URL.format('api/token')
 
 # client keys
-with open('api/config.json') as c:
+with open('config.json') as c:
     config = json.load(c)
 CLIENT_ID = config['id']
 CLIENT_SECRET = config['secret']
@@ -34,10 +38,12 @@ auth_query_parameters = {
     "client_id": CLIENT_ID
 }
 
-URL_ARGS = "&".join([f"{key}={urllibparse.quote(val)}" for key, val in list(auth_query_parameters.items())])
+URL_ARGS = "&".join([f"{key}={urllibparse.quote(val)}" for key,
+                     val in list(auth_query_parameters.items())])
 
-#---------------- auth request
+# ---------------- auth request
 AUTH_URL = f"{SPOTIFY_AUTH_URL}/?{URL_ARGS}"
+
 
 def authorize(auth_token):
 
@@ -46,11 +52,12 @@ def authorize(auth_token):
         "code": str(auth_token),
         "redirect_uri": REDIRECT_URI
     }
-    
+
     base64encoded = base64.b64encode((f"{CLIENT_ID}:{CLIENT_SECRET}").encode())
     headers = {"Authorization": f"Basic {base64encoded.decode()}"}
-    
-    post_request = requests.post(SPOTIFY_TOKEN_URL, data=code_payload, headers=headers)
+
+    post_request = requests.post(
+        SPOTIFY_TOKEN_URL, data=code_payload, headers=headers)
 
     # tokens are returned to the app
     response_data = json.loads(post_request.text)
@@ -64,12 +71,15 @@ def authorize(auth_token):
 # ---------------- 2. ME REQUEST ------------------------
 ME = f'{SPOTIFY_API_URL}/me'
 
+
 def get_username(auth_header):
     resp = requests.get(ME, headers=auth_header)
     return resp.json()['id']
 
+
 # ---------------- 3. CREATE PLAYLIST REQUEST ------------------------
 CREATE_PLAYLIST = f'{SPOTIFY_API_URL}/users'
+
 
 def create_playlist(auth_header, country):
     title = "Weltfy: Top local tracks from " + country
@@ -79,8 +89,10 @@ def create_playlist(auth_header, country):
     resp = requests.post(url, request_body, headers=auth_header)
     return resp.json()['id']
 
+
 # ---------------- 4. FILL PLAYLIST REQUEST ------------------------
 FILL_PLAYLIST = f'{SPOTIFY_API_URL}/playlists'
+
 
 def fill_playlist(track_list, id, auth_header):
     url = f'{FILL_PLAYLIST}/{id}/tracks?uris='
