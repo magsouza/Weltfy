@@ -12,12 +12,12 @@ def get_summary(artist):
 
 
 def try_cases(artist):
-    types_of_cases = ['singer', 'group', 'band']
+    case_types = ['singer', 'group', 'band']
     cases = []
     summaries = []
 
-    for type in types_of_cases:
-        aux = f'{artist} ({type})'
+    for case_type in case_types:
+        aux = f'{artist} ({case_type})'
         cases.append(aux)
 
     for case in cases:
@@ -45,11 +45,9 @@ def get_nationalities(summaries):
     nationalities = []
     for summ in summaries:
         summ = summ.split()
-        # gets index of the keywords singer/band/...
-        idx = index_to_split(summ)
+        idx = index_to_split(summ)      # gets index of the keywords singer/band/...
         summ = summ[:idx]               # and slice it up to this word
-        # so it can filter words with nationalities suffix
-        summ = filter_suffixes(summ)
+        summ = filter_suffixes(summ)    # so it can filter words with nationalities suffix
         nationalities.extend(summ)
     return nationalities
 
