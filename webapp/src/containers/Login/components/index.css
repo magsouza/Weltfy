@@ -1,0 +1,22 @@
+.SpotifyLogin {
+    height: 47px;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.SpotifyLogo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    margin-right: 20px;
+}
+
+.SpotifyLogo>img {
+    height: 41px;
+}
+
+.SpotifyLink {
+    color: white;
+}
