@@ -1,14 +1,12 @@
-import React, { Component } from "react";
+import React from 'react';
 import SpotifyLogin from './components/SpotifyLogin';
 
-class Login extends Component {
-  render() {
-    return (
+function Login() {
+  return (
     <div>
       <SpotifyLogin />
     </div>
-    );
-  }
+  );
 }
 
 export default Login;
