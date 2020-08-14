@@ -1,7 +1,10 @@
-import React, { Component } from "react";
-import logo from "../logo.svg";
-import "./App.css";
-import Login from "./Login";
+import React, { Component } from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import logo from '../assets/imgs/spotify_logo.png';
+import './App.css';
+import Login from './Login';
+import Selection from './Selection'
+import Playlist from './Playlist'
 
 class App extends Component {
   
@@ -13,7 +16,13 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="title">Weltfy</h1>
           <div className="description">{desc}</div>
-          <Login />
+
+          <Switch>
+            <Route path="/playlist" component={Playlist} />
+            <Route path="/selection" component={Selection}/>
+            <Route exact path="/" component={Login}/>
+          </Switch>
+
           <p>Inital development stage.</p>
           <a
             className="App-link"
@@ -29,4 +38,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
