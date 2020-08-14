@@ -1,8 +1,7 @@
 import json
 import requests
-import base64
-import pandas
 
+'''
 SPOTIFY_API_BASE_URL = 'https://api.spotify.com'
 API_VERSION = "v1"
 SPOTIFY_API_URL = f"{SPOTIFY_API_BASE_URL}/{API_VERSION}"
@@ -66,7 +65,7 @@ def authorize(auth_token):
     # use the access token to access Spotify API
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
     return auth_header
-
+'''
 
 # ---------------- 2. ME REQUEST ------------------------
 ME = f'{SPOTIFY_API_URL}/me'
