@@ -8,6 +8,7 @@ services:
     ports:
       - 8081:3000
   api:
+    container_name: api
     build: api/.
     volumes:
       - ./api:/weltfy
