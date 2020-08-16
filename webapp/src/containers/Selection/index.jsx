@@ -14,16 +14,14 @@ function Selection(props) {
             method:'POST',
             cache:'no-cache',
             headers:{
-                'content_type': 'application/json',
+                'Content-Type': 'application/json',
             },
-            body:{
-                'country':country,
-                'token': token,
-            }
-        }).then(response => {
-            console.log(response.json())
-        }).then(data => {
-            console.log(data.url)
+            body: JSON.stringify({
+                'country': country,
+                'token': token
+            })
+        }).then(response => response.json()).then(data => {
+            console.log(data.url) // to do!
         })
     }
 
